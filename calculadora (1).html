@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calculadora</title>
+</head>
+
+<body>
+
+    <div class="calculadora">
+        <div class="display">
+            <p id=valor1> </p>
+            <p id=conteudo> </p>
+        </div>
+
+        <div id=numerosCalculadora>
+            <button class="botoes" id="raiz" onclick="raizQuadrada()">
+                    √
+                </button><br />
+            <!-- <button class="botoes" id="raiz" onclick="raizQuadrada()">
+                    .
+                </button>
+            <button class="botoes" id="raiz" onclick="raizQuadrada()">
+                    CE
+                </button>
+            <button class="botoes" id="raiz" onclick="raizQuadrada()">
+                    alt 27
+                </button>-->
+            <button class="botoes" id="7" onclick="inserirNumeroNoDisplay(this.value)" value="7">
+                    7
+                </button>
+            <button class="botoes" id="8" onclick="inserirNumeroNoDisplay(this.value)" value="8">
+                    8
+                </button>
+            <button class="botoes" id="9" onclick="inserirNumeroNoDisplay(this.value)" value="9">
+                    9
+                </button>
+            <button class="botoes" id="multiplicacao" onclick="inserirNumeroNoDisplay(this.value)" value="x">
+                    x
+                </button></br>
+            <button class="botoes" id="4" onclick="inserirNumeroNoDisplay(this.value)" value="4">
+                    4
+                </button>
+            <button class="botoes" id="5" onclick="inserirNumeroNoDisplay(this.value)" value="5">
+                    5
+                </button>
+            <button class="botoes" id="6" onclick="inserirNumeroNoDisplay(this.value)" value="6">
+                    6
+                </button>
+            <button class="botoes" id="subtracao" onclick="inserirNumeroNoDisplay(this.value)" value="-">
+                    -
+                </button><br />
+            <button class="botoes" id="1" onclick="inserirNumeroNoDisplay(this.value)" value="1">
+                    1
+                </button>
+            <button class="botoes" id="2" onclick="inserirNumeroNoDisplay(this.value)" value="2">
+                    2
+                </button>
+            <button class="botoes" id="3" onclick="inserirNumeroNoDisplay(this.value)" value="3">
+                    3
+                </button>
+            <button class="botoes" id="soma" onclick="inserirNumeroNoDisplay(this.value)" value="+">
+                    +
+                </button><br />
+            <button class="botoes" id="limparDisplay" onclick="resetar()">
+                    C
+                </button>
+            <button class="botoes" id="0" onclick="inserirNumeroNoDisplay(this.value)" value="0">
+                    0
+                </button>
+            <button class="botoes" id="resultado" onclick="calculo()">
+                    =
+                </button>
+            <button class="botoes" id="Divisao" onclick="inserirNumeroNoDisplay(this.value)" value="÷">
+                    ÷
+                    <!-- alt 0247 -->
+                </button><br />
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    var valor1 = 0;
+    var valor2 = 0;
+    var boolean = false;
+    var booleanResultado = false;
+    var booleanValorInvalido = false;
+    var operacao = '';
+    var resultado = 0;
+    var resultadoRaizQuadrada = 0;
+
+    function inserirNumeroNoDisplay(numero) {
+        // if (this.resultado != 0 && (numero != '+' || numero != '-' || numero != '÷' || numero != 'x') && !booleanValorInvalido) {
+        //     resetar();
+        //     booleanValorInvalido = true;   
+        //     boolean = false;
+        // }
+        if ((numero != '+' && numero != '-' && numero != '÷' && numero != 'x') && !boolean) {
+            valor1 = document.getElementById('conteudo').innerHTML += numero;
+        } else if (valor1 != this.resultado && booleanResultado && boolean) {
+            if (this.resultado != 0) {
+                valor1 = this.resultado;
+            } else if (this.resultadoRaizQuadrada != 0) {
+                valor1 = this.resultadoRaizQuadrada;
+            }
+            document.getElementById('valor1').innerHTML = valor1 + numero;
+            document.getElementById('conteudo').innerHTML = '';
+            booleanResultado = false;
+            operacao = numero;
+        } else if ((numero != '+' && numero != '-' && numero != '÷' && numero != 'x') && boolean) {
+            valor2 = document.getElementById('conteudo').innerHTML += numero;
+        } else {
+            boolean = true;
+            operacao = numero;
+            document.getElementById('valor1').innerHTML = valor1 + numero;
+            document.getElementById('conteudo').innerHTML = '';
+        }
+    }
+
+    function calculo() {
+        if (operacao == '+') {
+            resultado = parseInt(valor1) + parseInt(valor2);
+            document.getElementById('conteudo').innerHTML = resultado;
+        } else if (operacao == '-') {
+            resultado = parseInt(valor1) - parseInt(valor2);
+            document.getElementById('conteudo').innerHTML = resultado;
+        } else if (operacao == 'x') {
+            resultado = parseInt(valor1) * parseInt(valor2);
+            document.getElementById('conteudo').innerHTML = resultado;
+        } else if (operacao == '÷') {
+            if (valor2 == 0) {
+                document.getElementById('conteudo').innerHTML = 'Não é possível realizar divisão por 0!';
+            } else {
+                resultado = parseInt(valor1) / parseInt(valor2);
+                document.getElementById('conteudo').innerHTML = resultado;
+            }
+        }
+        document.getElementById('valor1').innerHTML = '';
+        this.booleanResultado = true;
+        this.booleanValorInvalido = false;
+    }
+
+    function raizQuadrada() {
+        if (booleanResultado == true && this.resultado >= 0) {
+            document.getElementById('valor1').innerHTML = '√(' + this.resultado + ')';
+            resultadoRaizQuadrada = Math.sqrt(parseInt(this.resultado));
+            document.getElementById('conteudo').innerHTML = resultadoRaizQuadrada;
+            this.valor1 = resultadoRaizQuadrada;
+        } else if (!booleanResultado && this.valor1 >= 0) {
+            document.getElementById('valor1').innerHTML = '√(' + this.valor1 + ')';
+            resultadoRaizQuadrada = Math.sqrt(parseInt(this.valor1));
+            document.getElementById('conteudo').innerHTML = resultadoRaizQuadrada;
+            this.valor1 = resultadoRaizQuadrada;
+        } else {
+            document.getElementById('valor1').innerHTML = '√(' + this.resultado + ')';
+            document.getElementById('conteudo').innerHTML = 'ERRO';
+        }
+        this.resultado = 0;
+    }
+
+    function resetar() {
+        document.getElementById('conteudo').innerHTML = '';
+        document.getElementById('valor1').innerHTML = '';
+        operacao = '';
+        boolean = false;
+        booleanResultado = false;
+        this.resultado = 0;
+        this.valor1 = 0;
+        this.valor2 = 0;
+    }
+</script>
+<style>
+    .botoes {
+        width: 50px;
+        /*largura*/
+        height: 50px;
+        /*altura*/
+        text-align: center;
+    }
+</style>
